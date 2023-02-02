@@ -9,12 +9,15 @@ namespace TextBasedRPG
 
     internal class Map
     {
-        static Random RNG = new Random();
-        public static char[,] map = new char[30, 10];
+        Random RNG = new Random();
+        public char[,] map;
 
+        public Map(int width, int length)
+        {
+            map = new char[width, length];
+        }
 
-
-        public static void Draw()
+        public void Draw()
         {
             bool loop;
 
@@ -28,7 +31,7 @@ namespace TextBasedRPG
             }
 
             //Generate Random Walls
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < RNG.Next((int)(map.GetLength(0) * map.GetLength(1)) / 20, (int)(map.GetLength(0) * map.GetLength(1)) / 10); i++)
             {
                 loop = true;
                 while (loop)
@@ -36,7 +39,7 @@ namespace TextBasedRPG
                     int k = RNG.Next(0, map.GetLength(0));
                     int j = RNG.Next(0, map.GetLength(1));
 
-                    if (map[k, j] == ' ' && Player.x != k && Player.y != j)
+                    if (map[k, j] == ' ' && Program.player.x != k && Program.player.y != j && Program.enemy.x != k && Program.enemy.y != j)
                     {
                         map[k, j] = '█';
                         loop = false;

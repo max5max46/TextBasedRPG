@@ -8,21 +8,39 @@ namespace TextBasedRPG
 {
     internal class Program
     {
-        static bool gameLoop = true;
+        public static bool gameLoop = true;
 
-        public static int offsetX = 2;
+        //Declaires where in the console you want everything to display can't be anything below 1x1
+        public static int offsetX = 1;
         public static int offsetY = 1;
+        
+        //Declaires the size of map can be changed to anything above 1x1
+        public static int mapX = 20;
+        public static int mapY = 10;
 
+        public static Player player = new Player();
+        public static Enemy enemy = new Enemy();
+        public static Map map = new Map(mapX, mapY);
 
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
-            Map.Draw();
+            
+            map.Draw();
             while (gameLoop)
             {
-                Player.Draw();
-                Player.Update();
+                Console.SetCursorPosition(offsetX, offsetY + map.map.GetLength(1) + 1);
+                Console.Write("                                                    ");
+
+                enemy.Draw();
+                player.Draw();
+                enemy.Update();
+                player.Update();
+
             }
+            Console.SetCursorPosition(offsetX, offsetY + map.map.GetLength(1) + 1);
+            Console.Write("Game Over                                                  ");
+            Console.ReadKey(true);
         }
     }
 }

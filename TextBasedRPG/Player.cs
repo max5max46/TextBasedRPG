@@ -8,15 +8,32 @@ namespace TextBasedRPG
 {
     internal class Player
     {
-        public static int x = 5;
-        public static int y = 5;
+        static Random RNG = new Random();
 
-        public static int tempX = 5;
-        public static int tempY = 5;
+        public int x;
+        public int y;
 
+        public int tempX;
+        public int tempY;
 
-        public static void Update()
+        public int health = 5;
+        private bool hitEnemy = false;
+        public Player()
         {
+            x = RNG.Next(0, Program.mapX);
+            y = RNG.Next(0, Program.mapY);
+        }
+
+        public void Update()
+        {
+            if (health < 1)
+            {
+                x = Program.map.map.GetLength(0) + 2;
+                y = Program.map.map.GetLength(1) + 2;
+                return;
+            }
+
+
             tempX = x;
             tempY = y;
 
@@ -36,28 +53,52 @@ namespace TextBasedRPG
                 x++;
 
             //Range Check Collision
-            if (y < 0 || y == Map.map.GetLength(1) || x < 0 || x == Map.map.GetLength(0))
+            if (y < 0 || y == Program.map.map.GetLength(1) || x < 0 || x == Program.map.map.GetLength(0))
             {
                 x = tempX;
                 y = tempY;
             }
 
             //Collision Check with map object
-            if (Map.map[x, y] == '█')
+            if (Program.map.map[x, y] == '█')
             {
                 x = tempX;
                 y = tempY;
+            }
+
+            if (Program.enemy.x == x && Program.enemy.y == y && Program.enemy.health > 0)
+            {
+                Program.enemy.health--;
+                hitEnemy = true;
+                x = tempX;
+                y = tempY;
+                if (Program.enemy.health == 0)
+                {
+                    Program.enemy.Update();
+                }
             }
         }
 
 
 
-        public static void Draw()
+        public void Draw()
         {
+            
+
+            if (hitEnemy == true)
+            {
+                Console.SetCursorPosition(Program.offsetX, Program.offsetY + Program.map.map.GetLength(1) + 1);
+                Console.Write("Player Hit the Enemy");
+                hitEnemy = false;
+            }
+
+
             Console.SetCursorPosition(tempX + Program.offsetX, tempY+ Program.offsetY);
-            Console.Write(Map.map[x, y]);
+            Console.Write(Program.map.map[x, y]);
             Console.SetCursorPosition(x + Program.offsetX, y + Program.offsetY);
-            Console.Write("A");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("P");
+            Console.ResetColor();
         }
 
 
