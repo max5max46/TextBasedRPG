@@ -6,26 +6,16 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPG
 {
-    internal class Enemy
+    internal class Enemy : GameCharacter
     {
-        static Random RNG = new Random();
-        
-
-        public int x;
-        public int y;
-
-        public int tempX;
-        public int tempY;
-
-        public int health = 3;
-
         public char sprite = 'E';
-        private bool hitEnemy = false;
 
         public Enemy()
         {
             x = Program.player.x;
             y = Program.player.y;
+            health = 3;
+            hitEnemy = false;
 
             while (Program.player.x == x && Program.player.y == y)
             {
@@ -48,7 +38,6 @@ namespace TextBasedRPG
                 health--;
             }
 
-            int randMove = RNG.Next(1, 5);
 
             tempX = x;
             tempY = y;
@@ -72,7 +61,7 @@ namespace TextBasedRPG
             }
             else
             {
-                switch (randMove)
+                switch (RNG.Next(1,5))
                 {
                     case 1:
                         x++;

@@ -6,20 +6,13 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPG
 {
-    internal class Player
+    internal class Player : GameCharacter
     {
-        static Random RNG = new Random();
-
-        public int x;
-        public int y;
-
-        public int tempX;
-        public int tempY;
-
-        public int health = 5;
-        private bool hitEnemy = false;
         public Player()
         {
+            health = 5;
+            hitEnemy = false;
+
             x = RNG.Next(0, Program.mapX);
             y = RNG.Next(0, Program.mapY);
         }
