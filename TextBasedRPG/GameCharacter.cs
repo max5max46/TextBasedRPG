@@ -15,5 +15,19 @@ namespace TextBasedRPG
         public int tempY;
         public int health;
         public bool hitEnemy;
+
+        public int TakeDamage(int damage = 0)
+        {
+            health -= damage;
+            return health;
+        }
+
+        public bool ComparePosition(int xtoBeCompared, int yToBeCompared)
+        {
+            if (x == xtoBeCompared && y == yToBeCompared)
+                return true;
+            else
+                return false;
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace TextBasedRPG
 {
@@ -12,9 +13,31 @@ namespace TextBasedRPG
         Random RNG = new Random();
         public char[,] map;
 
-        public Map(int width, int length)
+        public Map()
         {
-            map = new char[width, length];
+            string[] convertTo2DArray = File.ReadAllText("map.txt").Split('\n');
+            map = new char[convertTo2DArray[1].Length, convertTo2DArray.Length];
+
+            for (int i = 0; i < convertTo2DArray.Length; i++)
+            {
+                for (int j = 0; j < convertTo2DArray[i].Length; j++)
+                {
+                    char changeTile = convertTo2DArray[i][j];
+
+                    switch (changeTile)
+                    {
+                        case 'X':
+                            changeTile = '█';
+                            break;
+
+                        case ')':
+                            changeTile = ' ';
+                            break;
+                    }
+
+                    map[j, i] = changeTile;
+                }
+            }
         }
 
         public void Draw()
@@ -22,30 +45,30 @@ namespace TextBasedRPG
             bool loop;
 
             //Creating map
-            for (int i = 0; i < map.GetLength(0); i++)
-            {
-                for(int j = 0; j < map.GetLength(1); j++)
-                {
-                    map[i, j] = ' ';
-                }
-            }
+            //for (int i = 0; i < map.GetLength(0); i++)
+            //{
+            //    for(int j = 0; j < map.GetLength(1); j++)
+            //    {
+            //        map[i, j] = ' ';
+            //    }
+            //}
 
             //Generate Random Walls
-            for (int i = 0; i < RNG.Next((int)(map.GetLength(0) * map.GetLength(1)) / 20, (int)(map.GetLength(0) * map.GetLength(1)) / 10); i++)
-            {
-                loop = true;
-                while (loop)
-                {
-                    int k = RNG.Next(0, map.GetLength(0));
-                    int j = RNG.Next(0, map.GetLength(1));
+            //for (int i = 0; i < RNG.Next((int)(map.GetLength(0) * map.GetLength(1)) / 20, (int)(map.GetLength(0) * map.GetLength(1)) / 10); i++)
+            //{
+            //    loop = true;
+            //    while (loop)
+            //    {
+            //        int k = RNG.Next(0, map.GetLength(0));
+            //        int j = RNG.Next(0, map.GetLength(1));
 
-                    if (map[k, j] == ' ' && Program.player.x != k && Program.player.y != j && Program.enemy.x != k && Program.enemy.y != j)
-                    {
-                        map[k, j] = '█';
-                        loop = false;
-                    }
-                }
-            }
+            //        if (map[k, j] == ' ' && Program.player.x != k && Program.player.y != j && Program.enemy.x != k && Program.enemy.y != j)
+            //        {
+            //            map[k, j] = '█';
+            //            loop = false;
+            //        }
+            //    }
+            //}
 
             //Drawing Border
             for (int i = 0; i < map.GetLength(0); i++)

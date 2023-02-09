@@ -93,13 +93,12 @@ namespace TextBasedRPG
                 y = tempY;
             }
 
-            if (Program.player.x == x && Program.player.y == y && Program.player.health > 0)
+            if (Program.player.ComparePosition(x, y) && Program.player.TakeDamage() > 0)
             {
                 x = tempX;
                 y = tempY;
-                Program.player.health--;
                 hitEnemy = true;
-                if (Program.player.health == 0)
+                if (Program.player.TakeDamage(1) < 1)
                 {
                     Program.gameLoop = false;
                 }
@@ -122,7 +121,7 @@ namespace TextBasedRPG
             }
 
             Console.SetCursorPosition(tempX + Program.offsetX, tempY + Program.offsetY);
-            Console.Write(Program.map.map[x, y]);
+            Console.Write(Program.map.map[tempX, tempY]);
             Console.SetCursorPosition(x + Program.offsetX, y + Program.offsetY);
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write(sprite);

@@ -87,7 +87,7 @@ namespace TextBasedRPG
 
 
             Console.SetCursorPosition(tempX + Program.offsetX, tempY+ Program.offsetY);
-            Console.Write(Program.map.map[x, y]);
+            Console.Write(Program.map.map[tempX, tempY]);
             Console.SetCursorPosition(x + Program.offsetX, y + Program.offsetY);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("P");
