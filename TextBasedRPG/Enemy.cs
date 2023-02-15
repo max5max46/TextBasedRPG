@@ -10,38 +10,24 @@ namespace TextBasedRPG
     {
         public char sprite = 'E';
 
-        public Enemy()
+        public Enemy(int[,] enemyCords, int index)
         {
-            x = Program.player.x;
-            y = Program.player.y;
+            x = enemyCords[index, 0];
+            y = enemyCords[index, 1];
             health = 3;
             hitEnemy = false;
-
-            while (Program.player.x == x && Program.player.y == y)
-            {
-                x = RNG.Next(0, Program.mapX);
-                y = RNG.Next(0, Program.mapY);
-            }
         }
 
-        public void Update()
+        public void Update(int[,] enemyCords, int index)
         {
             //Check to see if enemy is died, if yes, don't update 
             if (health < 0)
                 return;
 
-            //Called by player upon the moment of death of a enemy
-            if (health == 0)
-            {
-                sprite = ' ';
-                Draw();
-                health--;
-            }
 
+            //AI
 
-            tempX = x;
-            tempY = y;
-
+            //Move Towards player
             if ((Program.player.x + Program.player.y) - (x + y) < 7 && (Program.player.x + Program.player.y) - (x + y) > -7)
             {
                 if (Math.Abs(Program.player.x - x) > Math.Abs(Program.player.y - y))
@@ -60,6 +46,9 @@ namespace TextBasedRPG
                 }
             }
             else
+
+
+            //Random movement
             {
                 switch (RNG.Next(1,5))
                 {
@@ -78,31 +67,36 @@ namespace TextBasedRPG
                 }
             }
 
-
-            //Range Check Collision
-            if (y < 0 || y == Program.map.map.GetLength(1) || x < 0 || x == Program.map.map.GetLength(0))
-            {
-                x = tempX;
-                y = tempY;
-            }
-
             //Collision Check with map object
-            if (Program.map.map[x, y] == '█')
+            if (Program.map.CheckPosition(x, y) == '█')
             {
-                x = tempX;
-                y = tempY;
+                x = enemyCords[index, 0];
+                y = enemyCords[index, 1];
             }
 
-            if (Program.player.ComparePosition(x, y) && Program.player.TakeDamage() > 0)
+            //Collision Check for other enemys
+            for (int i = 0; i < enemyCords.Length; i++)
             {
-                x = tempX;
-                y = tempY;
-                hitEnemy = true;
-                if (Program.player.TakeDamage(1) < 1)
+                if (enemyCords[i, 0] == x && enemyCords[i, 1] == y)
                 {
-                    Program.gameLoop = false;
+                    x = enemyCords[index, 0];
+                    y = enemyCords[index, 1];
                 }
             }
+
+            //Collision Check for Player
+            if (Program.player.EnemyCollide(x, y, 1))
+            {
+                x = enemyCords[index, 0];
+                y = enemyCords[index, 1];
+            }
+
+            tempX = enemyCords[index, 0];
+            tempY = enemyCords[index, 1];
+
+
+            enemyCords[index, 0] = x;
+            enemyCords[index, 1] = y;
         }
 
         public void Draw()
@@ -111,14 +105,6 @@ namespace TextBasedRPG
             if (health < 0)
                 return;
 
-            
-
-            if (hitEnemy == true)
-            {
-                Console.SetCursorPosition(Program.offsetX + 30, Program.offsetY + Program.map.map.GetLength(1) + 1);
-                Console.Write("Enemy Hit Player");
-                hitEnemy = false;
-            }
 
             Console.SetCursorPosition(tempX + Program.offsetX, tempY + Program.offsetY);
             Console.Write(Program.map.map[tempX, tempY]);

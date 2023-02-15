@@ -13,16 +13,15 @@ namespace TextBasedRPG
         Random RNG = new Random();
         public char[,] map;
 
-        public Map()
+        public Map(char[,] loadedMap)
         {
-            string[] convertTo2DArray = File.ReadAllText("map.txt").Split('\n');
-            map = new char[convertTo2DArray[1].Length, convertTo2DArray.Length];
+            map = loadedMap;
 
-            for (int i = 0; i < convertTo2DArray.Length; i++)
+            for (int i = 0; i < map.GetLength(0); i++)
             {
-                for (int j = 0; j < convertTo2DArray[i].Length; j++)
+                for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    char changeTile = convertTo2DArray[i][j];
+                    char changeTile = map[i ,j];
 
                     switch (changeTile)
                     {
@@ -30,12 +29,12 @@ namespace TextBasedRPG
                             changeTile = '█';
                             break;
 
-                        case ')':
+                        default:
                             changeTile = ' ';
                             break;
                     }
 
-                    map[j, i] = changeTile;
+                    map[i, j] = changeTile;
                 }
             }
         }
@@ -44,31 +43,6 @@ namespace TextBasedRPG
         {
             bool loop;
 
-            //Creating map
-            //for (int i = 0; i < map.GetLength(0); i++)
-            //{
-            //    for(int j = 0; j < map.GetLength(1); j++)
-            //    {
-            //        map[i, j] = ' ';
-            //    }
-            //}
-
-            //Generate Random Walls
-            //for (int i = 0; i < RNG.Next((int)(map.GetLength(0) * map.GetLength(1)) / 20, (int)(map.GetLength(0) * map.GetLength(1)) / 10); i++)
-            //{
-            //    loop = true;
-            //    while (loop)
-            //    {
-            //        int k = RNG.Next(0, map.GetLength(0));
-            //        int j = RNG.Next(0, map.GetLength(1));
-
-            //        if (map[k, j] == ' ' && Program.player.x != k && Program.player.y != j && Program.enemy.x != k && Program.enemy.y != j)
-            //        {
-            //            map[k, j] = '█';
-            //            loop = false;
-            //        }
-            //    }
-            //}
 
             //Drawing Border
             for (int i = 0; i < map.GetLength(0); i++)
@@ -116,6 +90,11 @@ namespace TextBasedRPG
                     Console.Write(map[i, j]);
                 }
             }
+        }
+
+        public char CheckPosition(int x, int y)
+        {
+            return map[x, y];
         }
 
 

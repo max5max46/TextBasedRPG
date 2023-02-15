@@ -15,36 +15,29 @@ namespace TextBasedRPG
         public static int mapX = 20;
         public static int mapY = 10;
 
-        public static Player player = new Player();
-        public static Enemy enemy = new Enemy();
-        public static Map map = new Map();
+        public static Player player;
+        public static EnemyManager enemyManager;
+        public static Map map;
+        public static char[,] loadedMap;
 
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
 
-            //string[] convertTo2DArray = File.ReadAllText("map.txt").Split('\n');
-            //char[,] map = new char[convertTo2DArray[1].Length, convertTo2DArray.Length];
+            string[] convertTo2DArray = File.ReadAllText("map.txt").Split('\n');
+            loadedMap = new char[convertTo2DArray[1].Length, convertTo2DArray.Length];
 
-            //for (int i = 0; i < convertTo2DArray.Length; i++)
-            //{
-            //    for (int j = 0; j < convertTo2DArray[i].Length; j++)
-            //    {
-            //        map[j, i] = (convertTo2DArray[i][j]);
-            //    }
-            //}
+            for (int i = 0; i < convertTo2DArray.Length; i++)
+            {
+                for (int j = 0; j < convertTo2DArray[i].Length; j++)
+                {
+                    loadedMap[j,i] = convertTo2DArray[i][j];
+                }
+            }
 
-            //Drawing Map
-            //for (int i = 0; i < map.GetLength(0); i++)
-            //{
-            //    for (int j = 0; j < map.GetLength(1); j++)
-            //    {
-            //        Console.SetCursorPosition(i, j);
-            //        Console.Write(map[i, j]);
-            //    }
-            //}
-
-            //Console.ReadKey(true);
+            map = new Map(loadedMap);
+            enemyManager = new EnemyManager(loadedMap);
+            player = new Player(loadedMap);
 
             map.Draw();
             while (gameLoop)
@@ -52,11 +45,11 @@ namespace TextBasedRPG
                 Console.SetCursorPosition(offsetX, offsetY + map.map.GetLength(1) + 1);
                 Console.Write("                                                    ");
 
-                enemy.Draw();
+                enemyManager.Draw();
                 player.Draw();
 
 
-                enemy.Update();
+                enemyManager.Update();
                 player.Update();
 
             }

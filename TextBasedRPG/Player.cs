@@ -8,13 +8,26 @@ namespace TextBasedRPG
 {
     internal class Player : GameCharacter
     {
-        public Player()
+        public Player(char[,] loadedMap)
         {
             health = 5;
             hitEnemy = false;
 
-            x = RNG.Next(0, Program.mapX);
-            y = RNG.Next(0, Program.mapY);
+            for (int i = 0; i < loadedMap.GetLength(0); i++)
+            {
+                for (int j = 0; j < loadedMap.GetLength(1); j++)
+                {
+                    if (loadedMap[i, j] == 'P')
+                    {
+                        x = i;
+                        y = j;
+                    }
+
+                }
+            }
+            tempX = x;
+            tempY = y;
+
         }
 
         public void Update()
@@ -59,16 +72,10 @@ namespace TextBasedRPG
                 y = tempY;
             }
 
-            if (Program.enemy.x == x && Program.enemy.y == y && Program.enemy.health > 0)
+            if (Program.enemyManager.playerCollide(x, y, 1))
             {
-                Program.enemy.health--;
-                hitEnemy = true;
                 x = tempX;
                 y = tempY;
-                if (Program.enemy.health == 0)
-                {
-                    Program.enemy.Update();
-                }
             }
         }
 
@@ -76,16 +83,6 @@ namespace TextBasedRPG
 
         public void Draw()
         {
-            
-
-            if (hitEnemy == true)
-            {
-                Console.SetCursorPosition(Program.offsetX, Program.offsetY + Program.map.map.GetLength(1) + 1);
-                Console.Write("Player Hit the Enemy");
-                hitEnemy = false;
-            }
-
-
             Console.SetCursorPosition(tempX + Program.offsetX, tempY+ Program.offsetY);
             Console.Write(Program.map.map[tempX, tempY]);
             Console.SetCursorPosition(x + Program.offsetX, y + Program.offsetY);
@@ -94,6 +91,25 @@ namespace TextBasedRPG
             Console.ResetColor();
         }
 
+        public bool EnemyCollide(int enemyX, int enemyY, int damage = 0)
+        {
+            if (enemyX == x && enemyY == y)
+            {
+                PlayerTakesDamage();
+                return true;
+            }
+            return false;
 
+            void PlayerTakesDamage()
+            {
+                health -= damage;
+                Console.SetCursorPosition(Program.offsetX + 30, Program.offsetY + Program.map.map.GetLength(1) + 1);
+                Console.Write("Enemy Hit the Player");
+                if (health < 1)
+                {
+
+                }
+            }
+        }
     }
 }
