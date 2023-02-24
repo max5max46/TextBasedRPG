@@ -65,7 +65,7 @@ namespace TextBasedRPG
         {
             int index;
 
-            for (int i = 0; i < enemyCords.Length; i++)
+            for (int i = 0; i < enemyCords.GetLength(0); i++)
             {
                 if (playerX == enemyCords[i, 0] && playerY == enemyCords[i, 1])
                 {

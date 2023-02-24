@@ -14,6 +14,8 @@ namespace TextBasedRPG
         {
             x = enemyCords[index, 0];
             y = enemyCords[index, 1];
+            tempX = enemyCords[index, 0];
+            tempY = enemyCords[index, 1];
             health = 3;
             hitEnemy = false;
         }
@@ -50,7 +52,7 @@ namespace TextBasedRPG
 
             //Random movement
             {
-                switch (RNG.Next(1,5))
+                switch (GetRandomNumber(1, 4))
                 {
                     case 1:
                         x++;
@@ -75,8 +77,11 @@ namespace TextBasedRPG
             }
 
             //Collision Check for other enemys
-            for (int i = 0; i < enemyCords.Length; i++)
+            for (int i = 0; i < enemyCords.GetLength(0); i++)
             {
+                Console.SetCursorPosition(Program.offsetX, Program.offsetY + Program.map.map.GetLength(1) + 1);
+                Console.Write(enemyCords[i, 0] + "    " + enemyCords[i, 1]);
+
                 if (enemyCords[i, 0] == x && enemyCords[i, 1] == y)
                 {
                     x = enemyCords[index, 0];

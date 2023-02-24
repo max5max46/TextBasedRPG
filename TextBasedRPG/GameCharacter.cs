@@ -8,7 +8,7 @@ namespace TextBasedRPG
 {
     internal class GameCharacter
     {
-        public Random RNG = new Random();
+        
         public int x;
         public int y;
         public int tempX;
@@ -28,6 +28,11 @@ namespace TextBasedRPG
                 return true;
             else
                 return false;
+        }
+
+        public int GetRandomNumber(int min, int max)
+        {
+            return Program.GenerateRandomNumber(min, max);
         }
     }
 }

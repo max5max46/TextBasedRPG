@@ -15,13 +15,13 @@ namespace TextBasedRPG
 
         public Map(char[,] loadedMap)
         {
-            map = loadedMap;
+            map = new char[loadedMap.GetLength(0), loadedMap.GetLength(1)];
 
             for (int i = 0; i < map.GetLength(0); i++)
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    char changeTile = map[i ,j];
+                    char changeTile = loadedMap[i ,j];
 
                     switch (changeTile)
                     {

@@ -5,6 +5,7 @@ namespace TextBasedRPG
 {
     internal class Program
     {
+        private static Random RNG = new Random();
         public static bool gameLoop = true;
 
         //Declaires where in the console you want everything to display can't be anything below 1x1
@@ -57,5 +58,11 @@ namespace TextBasedRPG
             Console.Write("Game Over                                                  ");
             Console.ReadKey(true);
         }
+
+        public static int GenerateRandomNumber(int min, int max) 
+        {
+            return RNG.Next(min, max + 1);
+        }
+        
     }
 }
