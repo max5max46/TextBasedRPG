@@ -12,10 +12,6 @@ namespace TextBasedRPG
         public static int offsetX = 1;
         public static int offsetY = 1;
 
-        //Declaires the size of map can be changed to anything above 1x1
-        public static int mapX = 20;
-        public static int mapY = 10;
-
         public static Player player;
         public static EnemyManager enemyManager;
         public static Map map;
@@ -48,16 +44,30 @@ namespace TextBasedRPG
 
                 enemyManager.Draw();
                 player.Draw();
+                DrawHUD();
 
 
                 enemyManager.Update();
                 player.Update();
 
             }
-            Console.SetCursorPosition(offsetX, offsetY + map.map.GetLength(1) + 1);
-            Console.Write("Game Over                                                  ");
+            Console.SetCursorPosition(offsetX + 1, offsetY + map.map.GetLength(1) + 1);
+            Console.Write("Game Over");
             Console.ReadKey(true);
         }
+
+        static void DrawHUD()
+        {
+            Console.SetCursorPosition(offsetX - 1, offsetY + map.map.GetLength(1) + 0); Console.Write("├─────────────────────────────────────────────────");
+            Console.SetCursorPosition(offsetX - 1, offsetY + map.map.GetLength(1) + 1); Console.Write("│                                                │");
+            Console.SetCursorPosition(offsetX - 1, offsetY + map.map.GetLength(1) + 2); Console.Write("├────────────────────────────────────────────────┤");
+            Console.SetCursorPosition(offsetX - 1, offsetY + map.map.GetLength(1) + 3); Console.Write("│ Player health:                                 │");
+            Console.SetCursorPosition(offsetX - 1, offsetY + map.map.GetLength(1) + 4); Console.Write("│ Enemy health:                                  │");
+            Console.SetCursorPosition(offsetX - 1, offsetY + map.map.GetLength(1) + 5); Console.Write("└────────────────────────────────────────────────┘");
+
+            Console.SetCursorPosition(offsetX + 17, offsetY + map.map.GetLength(1) + 3); Console.Write(player.health);
+        }
+
 
         public static int GenerateRandomNumber(int min, int max) 
         {

@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPG
 {
-    internal class Enemy : GameCharacter
+    internal class EnemyRunner : GameCharacter
     {
-        public char sprite = 'E';
+        public char sprite = 'R';
         public int cordIndex;
 
-        public Enemy(int[,] enemyCords, int index)
+        public EnemyRunner(int[,] enemyCords, int index)
         {
             cordIndex = index;
             x = enemyCords[index, 0];
             y = enemyCords[index, 1];
             tempX = enemyCords[index, 0];
             tempY = enemyCords[index, 1];
-            health = 3;
+            health = 2;
             hitEnemy = false;
         }
 
@@ -37,16 +37,16 @@ namespace TextBasedRPG
                 if (Math.Abs(Program.player.x - x) > Math.Abs(Program.player.y - y))
                 {
                     if (Program.player.x > x)
-                        x++;
-                    else
                         x--;
+                    else
+                        x++;
                 }
                 else
                 {
                     if (Program.player.y > y)
-                        y++;
-                    else
                         y--;
+                    else
+                        y++;
                 }
             }
             else
@@ -113,7 +113,7 @@ namespace TextBasedRPG
             Console.SetCursorPosition(tempX + Program.offsetX, tempY + Program.offsetY);
             Console.Write(Program.map.map[tempX, tempY]);
             Console.SetCursorPosition(x + Program.offsetX, y + Program.offsetY);
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write(sprite);
             Console.ResetColor();
         }

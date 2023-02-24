@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace TextBasedRPG
     {
         public Player(char[,] loadedMap)
         {
-            health = 5;
+            health = 10;
             hitEnemy = false;
 
             for (int i = 0; i < loadedMap.GetLength(0); i++)
@@ -32,12 +33,8 @@ namespace TextBasedRPG
 
         public void Update()
         {
-            if (health < 1)
-            {
-                x = Program.map.map.GetLength(0) + 2;
-                y = Program.map.map.GetLength(1) + 2;
+            if (health == 0)
                 return;
-            }
 
 
             tempX = x;
@@ -83,6 +80,9 @@ namespace TextBasedRPG
 
         public void Draw()
         {
+            if (health == 0)
+                return;
+
             Console.SetCursorPosition(tempX + Program.offsetX, tempY+ Program.offsetY);
             Console.Write(Program.map.map[tempX, tempY]);
             Console.SetCursorPosition(x + Program.offsetX, y + Program.offsetY);
@@ -103,11 +103,13 @@ namespace TextBasedRPG
             void PlayerTakesDamage()
             {
                 health -= damage;
-                Console.SetCursorPosition(Program.offsetX + 30, Program.offsetY + Program.map.map.GetLength(1) + 1);
-                Console.Write("Enemy Hit the Player");
                 if (health < 1)
                 {
-
+                    Console.SetCursorPosition(x + Program.offsetX, y + Program.offsetY);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("X");
+                    Console.ResetColor();
+                    Program.gameLoop = false;
                 }
             }
         }

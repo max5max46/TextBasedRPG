@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace TextBasedRPG
 {
-    internal class Enemy : GameCharacter
+    internal class EnemyBouncer : GameCharacter
     {
-        public char sprite = 'E';
+        public char sprite = 'B';
         public int cordIndex;
 
-        public Enemy(int[,] enemyCords, int index)
+        public EnemyBouncer(int[,] enemyCords, int index)
         {
             cordIndex = index;
             x = enemyCords[index, 0];
             y = enemyCords[index, 1];
             tempX = enemyCords[index, 0];
             tempY = enemyCords[index, 1];
-            health = 3;
+            health = 5;
             hitEnemy = false;
         }
 
@@ -32,7 +32,7 @@ namespace TextBasedRPG
             //AI
 
             //Move Towards player
-            if ((Program.player.x + Program.player.y) - (x + y) < 7 && (Program.player.x + Program.player.y) - (x + y) > -7)
+            if ((Program.player.x + Program.player.y) - (x + y) < 4 && (Program.player.x + Program.player.y) - (x + y) > -4)
             {
                 if (Math.Abs(Program.player.x - x) > Math.Abs(Program.player.y - y))
                 {
@@ -47,27 +47,6 @@ namespace TextBasedRPG
                         y++;
                     else
                         y--;
-                }
-            }
-            else
-
-
-            //Random movement
-            {
-                switch (GetRandomNumber(1, 4))
-                {
-                    case 1:
-                        x++;
-                        break;
-                    case 2:
-                        x--;
-                        break;
-                    case 3:
-                        y++;
-                        break;
-                    case 4:
-                        y--;
-                        break;
                 }
             }
 
@@ -113,7 +92,7 @@ namespace TextBasedRPG
             Console.SetCursorPosition(tempX + Program.offsetX, tempY + Program.offsetY);
             Console.Write(Program.map.map[tempX, tempY]);
             Console.SetCursorPosition(x + Program.offsetX, y + Program.offsetY);
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Magenta;
             Console.Write(sprite);
             Console.ResetColor();
         }

@@ -41,9 +41,6 @@ namespace TextBasedRPG
 
         public void Draw()
         {
-            bool loop;
-
-
             //Drawing Border
             for (int i = 0; i < map.GetLength(0); i++)
             {
@@ -96,8 +93,5 @@ namespace TextBasedRPG
         {
             return map[x, y];
         }
-
-
-
     }
 }
