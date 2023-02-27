@@ -26,7 +26,9 @@ namespace TextBasedRPG
                 for (int j = 0; j < loadedMap.GetLength(1); j++)
                 {
                     if (loadedMap[i, j] == 'E')
-                        chaserEnemyCount++;
+                    {
+                        enemyCount++;
+                    }
 
                     if (loadedMap[i, j] == 'R')
                         runnerEnemyCount++;
@@ -125,8 +127,6 @@ namespace TextBasedRPG
                     if (chaserEnemys[i].x == enemyCords[index, 0] || chaserEnemys[i].y == enemyCords[index, 1])
                     {
                         chaserEnemys[i].health -= damage;
-                        Console.SetCursorPosition(Program.offsetX + 16, Program.offsetY + Program.map.map.GetLength(1) + 3);
-                        Console.Write(chaserEnemys[i].health + "   ");
                         if (chaserEnemys[i].health < 1)
                         {
                             enemyCords[index, 0] = 0;
@@ -140,8 +140,6 @@ namespace TextBasedRPG
                     if (runnerEnemys[i].x == enemyCords[index, 0] || runnerEnemys[i].y == enemyCords[index, 1])
                     {
                         runnerEnemys[i].health -= damage;
-                        Console.SetCursorPosition(Program.offsetX + 16, Program.offsetY + Program.map.map.GetLength(1) + 3);
-                        Console.Write(runnerEnemys[i].health + "   ");
                         if (runnerEnemys[i].health < 1)
                         {
                             enemyCords[index, 0] = 0;
@@ -155,8 +153,6 @@ namespace TextBasedRPG
                     if (bouncerEnemys[i].x == enemyCords[index, 0] || bouncerEnemys[i].y == enemyCords[index, 1])
                     {
                         bouncerEnemys[i].health -= damage;
-                        Console.SetCursorPosition(Program.offsetX + 16, Program.offsetY + Program.map.map.GetLength(1) + 3);
-                        Console.Write(bouncerEnemys[i].health + "   ");
                         if (bouncerEnemys[i].health < 1)
                         {
                             enemyCords[index, 0] = 0;
